@@ -66,26 +66,8 @@ resource "aws_route53_record" "googledomainkey-txt" {
   ]
 }
 
-module "root" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "${aws_route53_zone.gawn.name}"
-  alias-target = "d33zdxo7tsjn2a.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "www" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "www.${aws_route53_zone.gawn.name}"
-  alias-target = "d33zdxo7tsjn2a.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
 module "ana" {
-  source = "../dualstackrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
 
   zone_id = "${aws_route53_zone.gawn.zone_id}"
   name = "ana.${aws_route53_zone.gawn.name}"
@@ -94,7 +76,7 @@ module "ana" {
 }
 
 module "wildcard" {
-  source = "../dualstackaliasrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
   zone_id = "${aws_route53_zone.gawn.zone_id}"
   name = "*.${aws_route53_zone.gawn.name}"
@@ -102,65 +84,11 @@ module "wildcard" {
   alias-hosted-zone-id = "${module.ana.zone_id}"
 }
 
-module "archive" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "archive.${aws_route53_zone.gawn.name}"
-  alias-target = "dkedppfdzeg2q.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "cc" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "cc.${aws_route53_zone.gawn.name}"
-  alias-target = "d1iagugd0kfgl5.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
 module "files" {
-  source = "../dualstackaliasrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
   zone_id = "${aws_route53_zone.gawn.zone_id}"
   name = "files.${aws_route53_zone.gawn.name}"
   alias-target = "d1kjk14kk4ii6z.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "fsmsimulator" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "fsmsimulator.${aws_route53_zone.gawn.name}"
-  alias-target = "d3osxsfg9dh5eb.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "fwstats" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "fwstats.${aws_route53_zone.gawn.name}"
-  alias-target = "d3pd2tgss89tle.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "sam" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "sam.${aws_route53_zone.gawn.name}"
-  alias-target = "d1mf2ggpljcpx8.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
-module "waterfront" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "waterfront.${aws_route53_zone.gawn.name}"
-  alias-target = "d2xcll1t8iemo0.cloudfront.net."
   alias-hosted-zone-id = "Z2FDTNDATAQYW2"
 }

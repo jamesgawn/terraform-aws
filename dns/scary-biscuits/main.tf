@@ -22,6 +22,14 @@ resource "aws_route53_zone" "sb" {
   name = "${var.domain}"
 }
 
+output "zone_id" {
+  value = "${aws_route53_zone.sb.zone_id}"
+}
+
+output "zone_name" {
+  value = "${aws_route53_zone.sb.name}"
+}
+
 resource "aws_route53_record" "mx" {
   zone_id = "${aws_route53_zone.sb.zone_id}"
   name    = "${aws_route53_zone.sb.name}"
@@ -59,7 +67,7 @@ resource "aws_route53_record" "googledomainkey-txt" {
 }
 
 module "root" {
-  source = "../dualstackrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
 
   zone_id = "${aws_route53_zone.sb.zone_id}"
   name = "${aws_route53_zone.sb.name}"
@@ -67,17 +75,8 @@ module "root" {
   aaaa-records = "${var.ana-host-ipv6}"
 }
 
-module "blog-archive" {
-  source = "../dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.sb.zone_id}"
-  name = "blog-archive.${aws_route53_zone.sb.name}"
-  alias-target = "d3ac40p387txlz.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
 module "files" {
-  source = "../dualstackaliasrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
   zone_id = "${aws_route53_zone.sb.zone_id}"
   name = "files.${aws_route53_zone.sb.name}"
@@ -86,7 +85,7 @@ module "files" {
 }
 
 module "www" {
-  source = "../dualstackrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
 
   zone_id = "${aws_route53_zone.sb.zone_id}"
   name = "www.${aws_route53_zone.sb.name}"
@@ -95,7 +94,7 @@ module "www" {
 }
 
 module "filehost" {
-  source = "../dualstackrecord"
+  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
 
   zone_id = "${aws_route53_zone.sb.zone_id}"
   name = "filehost.${aws_route53_zone.sb.name}"
