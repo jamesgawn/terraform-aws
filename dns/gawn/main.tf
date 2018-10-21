@@ -83,12 +83,3 @@ module "wildcard" {
   alias-target = "ana.${aws_route53_zone.gawn.name}"
   alias-hosted-zone-id = "${module.ana.zone_id}"
 }
-
-module "files" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name = "files.${aws_route53_zone.gawn.name}"
-  alias-target = "d1kjk14kk4ii6z.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}

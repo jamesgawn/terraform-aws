@@ -68,23 +68,12 @@ data "aws_route53_zone" "scary_biscuits_co_uk" {
   name         = "scary-biscuits.co.uk."
 }
 
-// The AWS Cert Manager for globally managed domain names
-data "aws_acm_certificate" "gawn" {
-  provider = "aws.us-east-1"
-
-  domain   = "*.gawn.uk"
-  statuses = ["ISSUED"]
-}
-
-data "aws_acm_certificate" "sb" {
-  provider = "aws.us-east-1"
-
-  domain   = "*.scary-biscuits.com"
-  statuses = ["ISSUED"]
+// The generic SNS queue used for alarms
+data "aws_sns_topic" "alarm_sns" {
+  name = "EmergencyNotificationList"
 }
 
 // files.gawn.uk
-
 module "files_gawn_uk" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/cloudfront-distribution-via-s3"
 
@@ -114,7 +103,6 @@ module "gawn_co_uk" {
 }
 
 // files.scary-biscuits.com
-
 module "files_scary_biscuits_com" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/cloudfront-distribution-via-s3"
 

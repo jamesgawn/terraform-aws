@@ -75,15 +75,6 @@ module "root" {
   aaaa-records = "${var.ana-host-ipv6}"
 }
 
-module "files" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
-
-  zone_id = "${aws_route53_zone.sb.zone_id}"
-  name = "files.${aws_route53_zone.sb.name}"
-  alias-target = "d16y0hz62pl9qr.cloudfront.net."
-  alias-hosted-zone-id = "Z2FDTNDATAQYW2"
-}
-
 module "www" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
 
