@@ -1,6 +1,6 @@
 variable "profile" {
   type = "string",
-  default = "terraform"
+  default = "jg"
 }
 
 variable "region" {
@@ -20,11 +20,18 @@ provider "aws" {
   profile = "${var.profile}"
 }
 
+provider "aws" {
+  alias = "eu-west-1"
+
+  region = "eu-west-1"
+  profile = "${var.profile}"
+}
+
 terraform {
   backend "s3" {
     bucket = "ana-terraform-state"
     key = "global/terraform.tfstate"
-    profile = "terraform"
+    profile = "jg"
     region = "eu-west-2"
   }
 }
@@ -35,7 +42,7 @@ resource "aws_guardduty_detector" "master" {
 
 variable "ana-host-ipv4" {
   type = "string"
-  default = "35.177.49.58"
+  default = "35.177.120.58"
 }
 
 variable "ana-host-ipv6" {
