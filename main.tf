@@ -1,30 +1,30 @@
 variable "profile" {
-  type = "string",
+  type = "string"
   default = "jg"
 }
 
 variable "region" {
-  type = "string",
+  type = "string"
   default = "eu-west-2"
 }
 
 provider "aws" {
-  region = "${var.region}"
-  profile = "${var.profile}"
+  region = var.region
+  profile = var.profile
 }
 
 provider "aws" {
   alias = "us-east-1"
 
   region = "us-east-1"
-  profile = "${var.profile}"
+  profile = var.profile
 }
 
 provider "aws" {
   alias = "eu-west-1"
 
   region = "eu-west-1"
-  profile = "${var.profile}"
+  profile = var.profile
 }
 
 terraform {
@@ -40,22 +40,25 @@ resource "aws_guardduty_detector" "master" {
   enable = true
 }
 
-variable "ana-host-ipv4" {
-  type = "string"
-  default = "35.177.120.58"
-}
-
 variable "ana-host-ipv6" {
   type = "string"
   default = "2a05:d01c:99:e300:3182:c1a3:ef58:1b67"
 }
 
+data aws_eip "ana-eip" {
+  id = "eipalloc-0bb542b0279ea0d6a"
+}
+
+data aws_instance "ana" {
+  instance_id = "i-0dfc4294ee146be56"
+}
+
 // The DNS confguration for globally managed domain names
 module "dns" {
-  source = "dns"
+  source = "./dns"
 
-  ana-host-ipv4 = ["${var.ana-host-ipv4}"]
-  ana-host-ipv6 = ["${var.ana-host-ipv6}"]
+  ana-host-ipv4 = [data.aws_eip.ana-eip.public_ip]
+  ana-host-ipv6 = [var.ana-host-ipv6]
 }
 
 // Domain names
@@ -89,24 +92,29 @@ module "files_gawn_uk" {
   site-domains = ["files.gawn.uk", "files.gawn.co.uk"]
   root = "index.html"
   s3_force_destroy = false
+
+  providers = {
+    aws = aws
+    aws.us-east-1 = aws.us-east-1
+  }
 }
 
 module "gawn_uk" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
-  zone_id = "${data.aws_route53_zone.gawn_uk.zone_id}"
+  zone_id = data.aws_route53_zone.gawn_uk.zone_id
   name = "files.${data.aws_route53_zone.gawn_uk.name}"
-  alias-target = "${module.files_gawn_uk.domain_name}"
-  alias-hosted-zone-id = "${module.files_gawn_uk.hosted_zone_id}"
+  alias-target = module.files_gawn_uk.domain_name
+  alias-hosted-zone-id = module.files_gawn_uk.hosted_zone_id
 }
 
 module "gawn_co_uk" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
-  zone_id = "${data.aws_route53_zone.gawn_co_uk.zone_id}"
+  zone_id = data.aws_route53_zone.gawn_co_uk.zone_id
   name = "files.${data.aws_route53_zone.gawn_co_uk.name}"
-  alias-target = "${module.files_gawn_uk.domain_name}"
-  alias-hosted-zone-id = "${module.files_gawn_uk.hosted_zone_id}"
+  alias-target = module.files_gawn_uk.domain_name
+  alias-hosted-zone-id = module.files_gawn_uk.hosted_zone_id
 }
 
 // files.scary-biscuits.com
@@ -118,22 +126,27 @@ module "files_scary_biscuits_com" {
   site-domains = ["files.scary-biscuits.com", "files.scary-biscuits.co.uk"]
   root = "index.html"
   s3_force_destroy = false
+
+  providers = {
+    aws = aws
+    aws.us-east-1 = aws.us-east-1
+  }
 }
 
 module "scary_biscuits_com" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
-  zone_id = "${data.aws_route53_zone.scary_biscuits_com.zone_id}"
+  zone_id = data.aws_route53_zone.scary_biscuits_com.zone_id
   name = "files.${data.aws_route53_zone.scary_biscuits_com.name}"
-  alias-target = "${module.files_scary_biscuits_com.domain_name}"
-  alias-hosted-zone-id = "${module.files_scary_biscuits_com.hosted_zone_id}"
+  alias-target = module.files_scary_biscuits_com.domain_name
+  alias-hosted-zone-id = module.files_scary_biscuits_com.hosted_zone_id
 }
 
 module "scary_biscuits_co_uk" {
   source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
 
-  zone_id = "${data.aws_route53_zone.scary_biscuits_co_uk.zone_id}"
+  zone_id = data.aws_route53_zone.scary_biscuits_co_uk.zone_id
   name = "files.${data.aws_route53_zone.scary_biscuits_co_uk.name}"
-  alias-target = "${module.files_scary_biscuits_com.domain_name}"
-  alias-hosted-zone-id = "${module.files_scary_biscuits_com.hosted_zone_id}"
+  alias-target = module.files_scary_biscuits_com.domain_name
+  alias-hosted-zone-id = module.files_scary_biscuits_com.hosted_zone_id
 }

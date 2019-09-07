@@ -7,7 +7,7 @@ variable "ana-host-ipv6" {
 }
 
 module "sb-com" {
-  source = "scary-biscuits"
+  source = "./scary-biscuits"
 
   domain = "scary-biscuits.com"
 
@@ -18,7 +18,7 @@ module "sb-com" {
 }
 
 module "sb-co-uk" {
-  source = "scary-biscuits"
+  source = "./scary-biscuits"
 
   domain = "scary-biscuits.co.uk"
 
@@ -29,7 +29,7 @@ module "sb-co-uk" {
 }
 
 module "gawn-uk" {
-  source = "gawn"
+  source = "./gawn"
 
   domain = "gawn.uk"
 
@@ -40,7 +40,7 @@ module "gawn-uk" {
 }
 
 module "gawn-co-uk" {
-  source = "gawn"
+  source = "./gawn"
 
   domain = "gawn.co.uk"
 
@@ -48,16 +48,6 @@ module "gawn-co-uk" {
   googleauthvalue = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSx1x+RX9Y6Gt6kZgumhbVl+l0x+dX883XW7yzuFi/nQEKQ4HTcCvq1T+jfyatrzPD4XmsaP+JhccAdS2I7m8RkOCE/Yk0AQpxyB7NTL/0macCVBdOzWgMbGFXfCicj0sVZRNdvpQGVmAgtPVLmNzh5Lfx8ASOmXj6WLlo3048IwIDAQAB"
   ana-host-ipv4 = "${var.ana-host-ipv4}"
   ana-host-ipv6 = "${var.ana-host-ipv6}"
-}
-
-
-resource "aws_route53_record" "gawn-uk-home" {
-  zone_id = "${module.gawn-uk.zone_id}"
-  name = "home.${module.gawn-uk.zone_name}"
-  type    = "CNAME"
-  ttl     = "300"
-
-  records = ["anagawn.mynetgear.com"]
 }
 
 resource "aws_route53_record" "gawn-uk-opera" {
