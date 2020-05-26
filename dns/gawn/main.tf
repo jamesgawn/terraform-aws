@@ -75,23 +75,6 @@ module "ana" {
   aaaa-records = var.ana-host-ipv6
 }
 
-data "aws_eip" "vpn_ip" {
-  filter {
-    name   = "tag:Name"
-    values = ["vpn"]
-  }
-}
-
-resource "aws_route53_record" "vpn" {
-  zone_id = aws_route53_zone.gawn.zone_id
-  name    = "vpn.${aws_route53_zone.gawn.name}"
-  type    = "A"
-  ttl     = "300"
-  records = [
-    data.aws_eip.vpn_ip.public_ip
-  ]
-}
-
 module "wildcard" {
   source = "../../modules/dns/dualstackaliasrecord"
 
