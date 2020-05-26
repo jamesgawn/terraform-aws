@@ -1,10 +1,10 @@
 variable "profile" {
-  type = "string"
+  type = string
   default = "jg"
 }
 
 variable "region" {
-  type = "string"
+  type = string
   default = "eu-west-2"
 }
 
@@ -41,7 +41,7 @@ resource "aws_guardduty_detector" "master" {
 }
 
 variable "ana-host-ipv6" {
-  type = "string"
+  type = string
   default = "2a05:d01c:99:e300:3182:c1a3:ef58:1b67"
 }
 
@@ -85,7 +85,7 @@ data "aws_sns_topic" "alarm_sns" {
 
 // files.gawn.uk
 module "files_gawn_uk" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/cloudfront-distribution-via-s3"
+  source = "./modules/cloudfront-distribution-via-s3"
 
   site-name = "website-gawn-subdomain-files"
   cert-domain = "*.gawn.uk"
@@ -100,7 +100,7 @@ module "files_gawn_uk" {
 }
 
 module "gawn_uk" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
+  source = "./modules/dns/dualstackaliasrecord"
 
   zone_id = data.aws_route53_zone.gawn_uk.zone_id
   name = "files.${data.aws_route53_zone.gawn_uk.name}"
@@ -109,7 +109,7 @@ module "gawn_uk" {
 }
 
 module "gawn_co_uk" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
+  source = "./modules/dns/dualstackaliasrecord"
 
   zone_id = data.aws_route53_zone.gawn_co_uk.zone_id
   name = "files.${data.aws_route53_zone.gawn_co_uk.name}"
@@ -119,7 +119,7 @@ module "gawn_co_uk" {
 
 // files.scary-biscuits.com
 module "files_scary_biscuits_com" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/cloudfront-distribution-via-s3"
+  source = "./modules/cloudfront-distribution-via-s3"
 
   site-name = "website-scary-biscuits-subdomain-files"
   cert-domain = "*.scary-biscuits.com"
@@ -134,7 +134,7 @@ module "files_scary_biscuits_com" {
 }
 
 module "scary_biscuits_com" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
+  source = "./modules/dns/dualstackaliasrecord"
 
   zone_id = data.aws_route53_zone.scary_biscuits_com.zone_id
   name = "files.${data.aws_route53_zone.scary_biscuits_com.name}"
@@ -143,7 +143,7 @@ module "scary_biscuits_com" {
 }
 
 module "scary_biscuits_co_uk" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
+  source = "./modules/dns/dualstackaliasrecord"
 
   zone_id = data.aws_route53_zone.scary_biscuits_co_uk.zone_id
   name = "files.${data.aws_route53_zone.scary_biscuits_co_uk.name}"

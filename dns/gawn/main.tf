@@ -1,38 +1,38 @@
 variable "ana-host-ipv4" {
-  type = "list"
+  type = list(string)
 }
 
 variable "ana-host-ipv6" {
-  type = "list"
+  type = list(string)
 }
 
 variable "domain" {
-  type = "string"
+  type = string
 }
 
 variable "googleauthkey" {
-  type = "string"
+  type = string
 }
 
 variable "googleauthvalue" {
-  type = "string"
+  type = string
 }
 
 resource "aws_route53_zone" "gawn" {
-  name = "${var.domain}"
+  name = var.domain
 }
 
 output "zone_id" {
-  value = "${aws_route53_zone.gawn.zone_id}"
+  value = aws_route53_zone.gawn.zone_id
 }
 
 output "zone_name" {
-  value = "${aws_route53_zone.gawn.name}"
+  value = aws_route53_zone.gawn.name
 }
 
 resource "aws_route53_record" "mx" {
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name    = "${aws_route53_zone.gawn.name}"
+  zone_id = aws_route53_zone.gawn.zone_id
+  name    = aws_route53_zone.gawn.name
   type    = "MX"
   ttl     = "300"
   records = [
@@ -47,8 +47,8 @@ resource "aws_route53_record" "mx" {
 }
 
 resource "aws_route53_record" "txt" {
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
-  name    = "${aws_route53_zone.gawn.name}"
+  zone_id = aws_route53_zone.gawn.zone_id
+  name    = aws_route53_zone.gawn.name
   type    = "TXT"
   ttl     = "300"
   records = [
@@ -57,29 +57,38 @@ resource "aws_route53_record" "txt" {
 }
 
 resource "aws_route53_record" "googledomainkey-txt" {
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
+  zone_id = aws_route53_zone.gawn.zone_id
   name    = "${var.googleauthkey}.${aws_route53_zone.gawn.name}"
   type    = "TXT"
   ttl     = "300"
   records = [
-    "${var.googleauthvalue}"
+    var.googleauthvalue
   ]
 }
 
 module "ana" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
+  source = "../../modules/dns/dualstackrecord"
 
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
+  zone_id = aws_route53_zone.gawn.zone_id
   name = "ana.${aws_route53_zone.gawn.name}"
-  a-records = "${var.ana-host-ipv4}"
-  aaaa-records = "${var.ana-host-ipv6}"
+  a-records = var.ana-host-ipv4
+  aaaa-records = var.ana-host-ipv6
+}
+
+module "vpn" {
+  source = "../../modules/dns/dualstackrecord"
+
+  zone_id = aws_route53_zone.gawn.zone_id
+  name = "vpn.${aws_route53_zone.gawn.name}"
+  a-records = var.ana-host-ipv4
+  aaaa-records = var.ana-host-ipv6
 }
 
 module "wildcard" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackaliasrecord"
+  source = "../../modules/dns/dualstackaliasrecord"
 
-  zone_id = "${aws_route53_zone.gawn.zone_id}"
+  zone_id = aws_route53_zone.gawn.zone_id
   name = "*.${aws_route53_zone.gawn.name}"
   alias-target = "ana.${aws_route53_zone.gawn.name}"
-  alias-hosted-zone-id = "${module.ana.zone_id}"
+  alias-hosted-zone-id = module.ana.zone_id
 }

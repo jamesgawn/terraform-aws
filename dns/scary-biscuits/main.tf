@@ -1,38 +1,38 @@
 variable "ana-host-ipv4" {
-  type = "list"
+  type = list(string)
 }
 
 variable "ana-host-ipv6" {
-  type = "list"
+  type = list(string)
 }
 
 variable "domain" {
-  type = "string"
+  type = string
 }
 
 variable "googleauthkey" {
-  type = "string"
+  type = string
 }
 
 variable "googleauthvalue" {
-  type = "string"
+  type = string
 }
 
 resource "aws_route53_zone" "sb" {
-  name = "${var.domain}"
+  name = var.domain
 }
 
 output "zone_id" {
-  value = "${aws_route53_zone.sb.zone_id}"
+  value = aws_route53_zone.sb.zone_id
 }
 
 output "zone_name" {
-  value = "${aws_route53_zone.sb.name}"
+  value = aws_route53_zone.sb.name
 }
 
 resource "aws_route53_record" "mx" {
-  zone_id = "${aws_route53_zone.sb.zone_id}"
-  name    = "${aws_route53_zone.sb.name}"
+  zone_id = aws_route53_zone.sb.zone_id
+  name    = aws_route53_zone.sb.name
   type    = "MX"
   ttl     = "300"
   records = [
@@ -47,8 +47,8 @@ resource "aws_route53_record" "mx" {
 }
 
 resource "aws_route53_record" "txt" {
-  zone_id = "${aws_route53_zone.sb.zone_id}"
-  name    = "${aws_route53_zone.sb.name}"
+  zone_id = aws_route53_zone.sb.zone_id
+  name    = aws_route53_zone.sb.name
   type    = "TXT"
   ttl     = "300"
   records = [
@@ -57,38 +57,38 @@ resource "aws_route53_record" "txt" {
 }
 
 resource "aws_route53_record" "googledomainkey-txt" {
-  zone_id = "${aws_route53_zone.sb.zone_id}"
+  zone_id = aws_route53_zone.sb.zone_id
   name    = "${var.googleauthkey}.${aws_route53_zone.sb.name}"
   type    = "TXT"
   ttl     = "300"
   records = [
-    "${var.googleauthvalue}"
+    var.googleauthvalue
   ]
 }
 
 module "root" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
+  source = "../../modules/dns/dualstackrecord"
 
-  zone_id = "${aws_route53_zone.sb.zone_id}"
-  name = "${aws_route53_zone.sb.name}"
-  a-records = "${var.ana-host-ipv4}"
-  aaaa-records = "${var.ana-host-ipv6}"
+  zone_id = aws_route53_zone.sb.zone_id
+  name = aws_route53_zone.sb.name
+  a-records = var.ana-host-ipv4
+  aaaa-records = var.ana-host-ipv6
 }
 
 module "www" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
+  source = "../../modules/dns/dualstackrecord"
 
-  zone_id = "${aws_route53_zone.sb.zone_id}"
+  zone_id = aws_route53_zone.sb.zone_id
   name = "www.${aws_route53_zone.sb.name}"
-  a-records = "${var.ana-host-ipv4}"
-  aaaa-records = "${var.ana-host-ipv6}"
+  a-records = var.ana-host-ipv4
+  aaaa-records = var.ana-host-ipv6
 }
 
 module "filehost" {
-  source = "github.com/jamesgawn/ana-terraform-shared.git/dns/dualstackrecord"
+  source = "../../modules/dns/dualstackrecord"
 
-  zone_id = "${aws_route53_zone.sb.zone_id}"
+  zone_id = aws_route53_zone.sb.zone_id
   name = "filehost.${aws_route53_zone.sb.name}"
-  a-records = "${var.ana-host-ipv4}"
-  aaaa-records = "${var.ana-host-ipv6}"
+  a-records = var.ana-host-ipv4
+  aaaa-records = var.ana-host-ipv6
 }
