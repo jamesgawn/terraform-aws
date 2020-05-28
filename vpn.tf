@@ -21,6 +21,18 @@ data "aws_vpc" "network" {
   id = var.vpc
 }
 
+data "aws_security_group" "webserver-security-group" {
+  name = "Web Servers SG"
+}
+
+data "aws_security_group" "ddns-server-security-group" {
+  name = "ddns-service-server"
+}
+
+data "aws_security_group" "train-tracker-security-group" {
+  name = "train-tracker-api-server"
+}
+
 resource "aws_security_group" "server_security_group" {
   name        = "vpn-server-sg"
   description = "Allow VPN Services In"
@@ -66,6 +78,15 @@ resource "aws_security_group" "server_security_group" {
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = [data.aws_security_group.ddns-server-security-group.id,
+                      data.aws_security_group.train-tracker-security-group.id,
+                      data.aws_security_group.webserver-security-group.id]
   }
 
   ingress {

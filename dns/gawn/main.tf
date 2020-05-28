@@ -74,12 +74,3 @@ module "ana" {
   a-records = var.ana-host-ipv4
   aaaa-records = var.ana-host-ipv6
 }
-
-module "wildcard" {
-  source = "../../modules/dns/dualstackaliasrecord"
-
-  zone_id = aws_route53_zone.gawn.zone_id
-  name = "*.${aws_route53_zone.gawn.name}"
-  alias-target = "ana.${aws_route53_zone.gawn.name}"
-  alias-hosted-zone-id = module.ana.zone_id
-}
