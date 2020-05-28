@@ -84,15 +84,6 @@ resource "aws_security_group" "server_security_group" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    security_groups = [data.aws_security_group.ddns-server-security-group.id,
-                      data.aws_security_group.train-tracker-security-group.id,
-                      data.aws_security_group.webserver-security-group.id]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
     cidr_blocks = [data.aws_vpc.network.cidr_block, var.homeNetworkCidr]
   }
 
