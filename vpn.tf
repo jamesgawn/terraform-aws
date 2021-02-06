@@ -3,7 +3,7 @@
  * - Add the VPN server as the target for the home CIDR destination.
  * - Add inbound traffic (or suitably restricted alternatives) rules with the vpn-server security group as the source to any security groups that you wish to allow access to via the VPN connection.
  */
-
+/*
 variable vpc {
   type = string
 }
@@ -33,74 +33,74 @@ data "aws_security_group" "train-tracker-security-group" {
   name = "train-tracker-api-server"
 }
 
-//resource "aws_security_group" "server_security_group" {
-//  name        = "vpn-server-sg"
-//  description = "Allow VPN Services In"
-//  vpc_id      = data.aws_vpc.network.id
-//
-//  ingress {
-//    from_port   = 4500
-//    to_port     = 4500
-//    protocol    = "udp"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = 4500
-//    to_port     = 4500
-//    protocol    = "tcp"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = 500
-//    to_port     = 500
-//    protocol    = "udp"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = 500
-//    to_port     = 500
-//    protocol    = "tcp"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = 0
-//    to_port     = 0
-//    protocol    = "51"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = -1
-//    to_port     = -1
-//    protocol    = "icmp"
-//    cidr_blocks = ["${var.homeGatewayIp}/32"]
-//  }
-//
-//  ingress {
-//    from_port   = 0
-//    to_port     = 0
-//    protocol    = "-1"
-//    cidr_blocks = [data.aws_vpc.network.cidr_block, var.homeNetworkCidr]
-//  }
-//
-//  egress {
-//    from_port   = 0
-//    to_port     = 0
-//    protocol    = "-1"
-//    cidr_blocks = ["0.0.0.0/0"]
-//  }
-//
-//  egress {
-//    from_port        = 0
-//    to_port          = 0
-//    protocol         = "-1"
-//    ipv6_cidr_blocks = ["::/0"]
-//  }
-//}
+resource "aws_security_group" "server_security_group" {
+  name        = "vpn-server-sg"
+  description = "Allow VPN Services In"
+  vpc_id      = data.aws_vpc.network.id
+
+  ingress {
+    from_port   = 4500
+    to_port     = 4500
+    protocol    = "udp"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 4500
+    to_port     = 4500
+    protocol    = "tcp"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 500
+    to_port     = 500
+    protocol    = "udp"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 500
+    to_port     = 500
+    protocol    = "tcp"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "51"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["${var.homeGatewayIp}/32"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [data.aws_vpc.network.cidr_block, var.homeNetworkCidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
 
 data "aws_ami" "amazon-linux-2" {
   most_recent = true
@@ -132,21 +132,22 @@ data "aws_iam_role" "ec2instancerole" {
   name = "EC2SystemManagerRole"
 }
 
-//resource "aws_instance" "server" {
-//  ami                  = data.aws_ami.amazon-linux-2.id
-//  instance_type        = "t3a.nano"
-//  iam_instance_profile = data.aws_iam_role.ec2instancerole.name
-//
-//  user_data = data.template_file.server-cloud-init.rendered
-//  source_dest_check = false
-//
-//  vpc_security_group_ids = [aws_security_group.server_security_group.id]
-//
-//  tags = {
-//    Name = "vpn-server"
-//  }
-//}
+resource "aws_instance" "server" {
+  ami                  = data.aws_ami.amazon-linux-2.id
+  instance_type        = "t3a.nano"
+  iam_instance_profile = data.aws_iam_role.ec2instancerole.name
 
-//output "vpn-server-ip" {
-//  value = aws_instance.server.public_ip
-//}
+  user_data = data.template_file.server-cloud-init.rendered
+  source_dest_check = false
+
+  vpc_security_group_ids = [aws_security_group.server_security_group.id]
+
+  tags = {
+    Name = "vpn-server"
+  }
+}
+
+output "vpn-server-ip" {
+  value = aws_instance.server.public_ip
+}
+*/

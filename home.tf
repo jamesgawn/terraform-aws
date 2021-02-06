@@ -33,18 +33,18 @@ resource "aws_route53_record" "home_dkim_record" {
   records = ["${element(aws_ses_domain_dkim.gawn_ses_dkim.dkim_tokens, count.index)}.dkim.amazonses.com"]
 }
 
-resource "aws_route53_record" "gawn-uk-home-printer" {
+resource "aws_route53_record" "gawn-uk-home-wildcard" {
   zone_id = module.home.zone_id
-  name = "printer.${module.home.name}"
-  type = "A"
+  name = "*.${module.home.name}"
+  type = "CNAME"
   ttl = "600"
-  records = ["192.168.1.251"]
+  records = ["home.gawn.uk"]
 }
 
-resource "aws_route53_record" "gawn-uk-home-unifi" {
+resource "aws_route53_record" "gawn-uk-home-cca" {
   zone_id = module.home.zone_id
-  name = "unifi.${module.home.name}"
-  type    = "A"
-  ttl     = "300"
-  records = ["192.168.1.250"]
+  name = module.home.name
+  type = "CAA"
+  ttl = "600"
+  records = ["0 issue \"letsencrypt.org\"", "0 issue \"amazon.com\""]
 }

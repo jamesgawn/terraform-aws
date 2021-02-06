@@ -74,3 +74,11 @@ module "ana" {
   a-records = var.ana-host-ipv4
   aaaa-records = var.ana-host-ipv6
 }
+
+resource "aws_route53_record" "gawn-uk-home-cca" {
+  zone_id = aws_route53_zone.gawn.zone_id
+  name = aws_route53_zone.gawn.name
+  type = "CAA"
+  ttl = "600"
+  records = ["0 issue \"letsencrypt.org\"", "0 issue \"amazon.com\""]
+}
