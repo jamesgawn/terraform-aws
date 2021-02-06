@@ -2,10 +2,6 @@ resource "aws_route53_zone" "dev-zone" {
   name = "gawn.dev"
 }
 
-output "name" {
-  value = aws_route53_zone.dev-zone.name
-}
-
 resource "aws_route53_record" "gawn-dev-wildcard" {
   zone_id = aws_route53_zone.dev-zone.zone_id
   name = "*"
@@ -40,7 +36,7 @@ resource "aws_route53_record" "gawn_dev_verification_record" {
 }
 
 resource "aws_route53_record" "gawn_dev_dkim_record" {
-  name = "${element(aws_ses_domain_dkim.gawn_dev.dkim_tokens, count.index)}._domainkey.home.gawn.uk"
+  name = "${element(aws_ses_domain_dkim.gawn_dev.dkim_tokens, count.index)}._domainkey.${aws_route53_zone.dev-zone.name}"
   type = "CNAME"
   zone_id = aws_route53_zone.dev-zone.zone_id
   count = 3
