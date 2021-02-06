@@ -8,7 +8,7 @@ output "name" {
 
 resource "aws_route53_record" "gawn-dev-wildcard" {
   zone_id = aws_route53_zone.dev-zone.zone_id
-  name = "*.gawn.uk"
+  name = "*"
   type = "CNAME"
   ttl = "600"
   records = ["cluster.gawn.dev"]
