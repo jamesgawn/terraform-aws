@@ -67,3 +67,12 @@ resource "aws_route53_record" "gawn-uk-tumblr" {
 
   records = ["domains.tumblr.com"]
 }
+
+resource "aws_route53_record" "gawn-uk-learning" {
+  zone_id = module.gawn-uk.zone_id
+  name = "learning.${module.gawn-uk.zone_name}"
+  type    = "CNAME"
+  ttl     = "300"
+
+  records = ["jamesgawn.github.io"]
+}
