@@ -88,7 +88,7 @@ module "files_gawn_uk" {
   source = "./modules/cloudfront-distribution-via-s3"
 
   site-name = "website-gawn-subdomain-files"
-  cert-domain = "*.gawn.uk"
+  cert-domain = "gawn.uk"
   site-domains = ["files.gawn.uk", "files.gawn.co.uk"]
   root = "index.html"
   s3_force_destroy = false
@@ -122,7 +122,7 @@ module "files_scary_biscuits_com" {
   source = "./modules/cloudfront-distribution-via-s3"
 
   site-name = "website-scary-biscuits-subdomain-files"
-  cert-domain = "*.scary-biscuits.com"
+  cert-domain = "scary-biscuits.com"
   site-domains = ["files.scary-biscuits.com", "files.scary-biscuits.co.uk"]
   root = "index.html"
   s3_force_destroy = false
