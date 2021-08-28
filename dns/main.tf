@@ -10,9 +10,6 @@ module "sb-com" {
   source = "./scary-biscuits"
 
   domain = "scary-biscuits.com"
-
-  googleauthkey = "google._domainkey"
-  googleauthvalue = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtB0hx2A74wFRMPTZex0k6MxoFzeiE9ISxjPxo6FMc4E5KKL+PzWQNfPQtw82AynJRTDyGGYVoxTH9y1SYySMbflYbiiQsAo8cSKtJcaSPrzrnCuyFKaykwh/LD56U2NzkdZoJkXrBjU/f5sdVOILZEjSl0IDAR0+eUyTpx6BtDQIDAQAB"
   ana-host-ipv4 = var.ana-host-ipv4
   ana-host-ipv6 = var.ana-host-ipv6
 }
@@ -21,9 +18,6 @@ module "sb-co-uk" {
   source = "./scary-biscuits"
 
   domain = "scary-biscuits.co.uk"
-
-  googleauthkey = "google._domainkey"
-  googleauthvalue = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqDrpKLNKCds0rZ3QGLYZZIG+IA6JD96OUVTTKmmo1oeUy5NGjByzSSMdgm6HxzZ0XqTwRnjebz6AW3gUeP4orKdjmj9ocecxYTcuLz1yQaAoeVcuM8c3ls0HiVK0cnHLbaDkXWu0p6e2ENzosCPoVFaFHHk8gpCizDJJGFLUPswIDAQAB"
   ana-host-ipv4 = var.ana-host-ipv4
   ana-host-ipv6 = var.ana-host-ipv6
 }
