@@ -78,5 +78,3 @@ resource "aws_route53_record" "sb-co-uk-email-dkim" {
   ttl = "600"
   records = ["sig1.dkim.scary-biscuits.co.uk.at.icloudmailadmin.com."]
 }
-
-// gawn.uk
