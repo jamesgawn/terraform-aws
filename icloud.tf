@@ -95,7 +95,7 @@ resource "aws_route53_record" "gawn-uk-email-txt-domainkey" {
   name = data.aws_route53_zone.gawn-uk.name
   type = "TXT"
   ttl = "300"
-  records = ["apple-domain=ikpQVrVN6M7Ktyv3", "v=spf1 redirect=icloud.com"]
+  records = ["apple-domain=w2qHBNd0CWllLubd", "v=spf1 redirect=icloud.com"]
 }
 resource "aws_route53_record" "gawn-uk-email-dkim" {
   zone_id = data.aws_route53_zone.gawn-uk.zone_id
