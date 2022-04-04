@@ -1,6 +1,6 @@
 variable "profile" {
   type = string
-  default = "jg"
+  default = "default"
 }
 
 variable "region" {
@@ -31,7 +31,6 @@ terraform {
   backend "s3" {
     bucket = "ana-terraform-state"
     key = "global/terraform.tfstate"
-    profile = "jg"
     region = "eu-west-2"
   }
 }
