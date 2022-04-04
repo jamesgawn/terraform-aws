@@ -1,6 +1,6 @@
 resource "aws_kms_key" "dnssec" {
   provider = aws.us-east-1
-  customer_master_key_spec = "ECC_NIST_P521"
+  customer_master_key_spec = "ECC_NIST_P256"
   deletion_window_in_days  = 7
   key_usage                = "SIGN_VERIFY"
   policy = jsonencode({
