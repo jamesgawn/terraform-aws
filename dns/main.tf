@@ -64,3 +64,12 @@ resource "aws_route53_record" "gawn-uk-learning" {
 
   records = ["jamesgawn.github.io"]
 }
+
+resource "aws_route53_record" "gawn-uk-blog" {
+  zone_id = module.gawn-uk.zone_id
+  name = "blog.${module.gawn-uk.zone_name}"
+  type    = "CNAME"
+  ttl     = "300"
+
+  records = ["gawns-missives.ghost.io"]
+}

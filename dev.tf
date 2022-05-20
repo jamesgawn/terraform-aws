@@ -43,4 +43,3 @@ resource "aws_route53_record" "gawn_dev_dkim_record" {
   ttl = "600"
   records = ["${element(aws_ses_domain_dkim.gawn_dev.dkim_tokens, count.index)}.dkim.amazonses.com"]
 }
-
