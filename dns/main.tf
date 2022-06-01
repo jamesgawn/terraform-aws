@@ -73,3 +73,21 @@ resource "aws_route53_record" "gawn-uk-blog" {
 
   records = ["gawns-missives.ghost.io"]
 }
+
+resource "aws_route53_record" "gawn-uk-github-page" {
+  zone_id = module.gawn-uk.zone_id
+  name = "_github-pages-challenge-jamesgawn.${module.gawn-uk.zone_name}"
+  type    = "TXT"
+  ttl     = "300"
+
+  records = ["49ea1faf82befa813d319856367734"]
+}
+
+resource "aws_route53_record" "gawn-uk-v2" {
+  zone_id = module.gawn-uk.zone_id
+  name = "v2.${module.gawn-uk.zone_name}"
+  type    = "CNAME"
+  ttl     = "300"
+
+  records = ["jamesgawn.github.io"]
+}
