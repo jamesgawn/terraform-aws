@@ -3,7 +3,7 @@ terraform {
     aws = {
       source = "hashicorp/aws"
       configuration_aliases = [
-      aws.us-east-1,
+      us-east-1,
       ]
     }  
   }
