@@ -141,34 +141,34 @@ resource "aws_cloudfront_distribution" "distribution" {
  * Map domains to cloudfront distribution
  */
 
-# resource "aws_route53_record" "api-ipv4" {
-#   provider = aws.default
-#   for_each = toset(var.domains)
+resource "aws_route53_record" "api-ipv4" {
+  provider = aws.default
+  for_each = var.domains
 
-#   name    = each.value.domain
-#   type    = "A"
-#   zone_id = each.value.zone_id
+  name    = each.value.domain
+  type    = "A"
+  zone_id = each.value.zone_id
 
-#   alias {
-#     name                   = aws_cloudfront_distribution.distribution.domain_name
-#     zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
-#     evaluate_target_health = false
-#   }
-#   allow_overwrite = true
-# }
+  alias {
+    name                   = aws_cloudfront_distribution.distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+  allow_overwrite = true
+}
 
-# resource "aws_route53_record" "api-ipv6" {
-#   provider = aws.default
-#   for_each = var.domains
+resource "aws_route53_record" "api-ipv6" {
+  provider = aws.default
+  for_each = var.domains
 
-#   name    = each.value.domain
-#   type    = "AAAA"
-#   zone_id = each.value.zone_id
+  name    = each.value.domain
+  type    = "AAAA"
+  zone_id = each.value.zone_id
 
-#   alias {
-#     name                   = aws_cloudfront_distribution.distribution.domain_name
-#     zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
-#     evaluate_target_health = false
-#   }
-#   allow_overwrite = true
-# }
+  alias {
+    name                   = aws_cloudfront_distribution.distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+  allow_overwrite = true
+}
