@@ -54,6 +54,7 @@ resource "aws_route53_record" "api" {
     zone_id                = aws_apigatewayv2_domain_name.api.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
+  allow_overwrite = true
 }
 
 resource "aws_acm_certificate" "cert" {
