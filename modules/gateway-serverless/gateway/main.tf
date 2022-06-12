@@ -6,7 +6,7 @@ variable "name" {
 resource "aws_apigatewayv2_api" "api" {
   name          = "${var.name}"
   protocol_type = "HTTP"
-  disable_execute_api_endpoint = true
+  disable_execute_api_endpoint = false
 }
 
 resource "aws_cloudwatch_log_group" "api" {
