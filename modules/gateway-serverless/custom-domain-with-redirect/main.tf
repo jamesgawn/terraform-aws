@@ -143,7 +143,7 @@ resource "aws_cloudfront_distribution" "distribution" {
 
 resource "aws_route53_record" "api-ipv4" {
   provider = aws.default
-  for_each = var.domains
+  for_each = toset(var.domains)
 
   name    = each.value.domain
   type    = "A"
@@ -157,23 +157,23 @@ resource "aws_route53_record" "api-ipv4" {
   allow_overwrite = true
 }
 
-resource "aws_route53_record" "api-ipv6" {
-  provider = aws.default
-  for_each = {
-    for domain in var.domains : domain.domain => {
-      domain = domain.domain
-      zone_id = domain.zone_id
-    } 
-  }
+# resource "aws_route53_record" "api-ipv6" {
+#   provider = aws.default
+#   for_each = {
+#     for domain in  : domain.domain => {
+#       domain = domain.domain
+#       zone_id = domain.zone_id
+#     } 
+#   }
 
-  name    = each.value.domain
-  type    = "AAAA"
-  zone_id = each.value.zone_id
+#   name    = each.value.domain
+#   type    = "AAAA"
+#   zone_id = each.value.zone_id
 
-  alias {
-    name                   = aws_cloudfront_distribution.distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-  allow_overwrite = true
-}
+#   alias {
+#     name                   = aws_cloudfront_distribution.distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+#   allow_overwrite = true
+# }
