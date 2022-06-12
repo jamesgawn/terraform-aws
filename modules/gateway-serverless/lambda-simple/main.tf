@@ -29,6 +29,10 @@ variable "runtime" {
   type = string
 }
 
+variable "env" {
+  type = map(string)
+}
+
 data "archive_file" "lambda_code" {
   type        = "zip"
   output_path = "${path.root}/deploy/${var.name}.zip"
@@ -45,6 +49,7 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash = data.archive_file.lambda_code.output_sha
   memory_size = var.memory_size
   timeout = var.timeout
+  environment = var.env
 
   role = aws_iam_role.lambda_execution_role.arn
 }
