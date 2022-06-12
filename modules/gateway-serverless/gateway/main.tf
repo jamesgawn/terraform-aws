@@ -25,3 +25,11 @@ resource "aws_apigatewayv2_stage" "api" {
 EOF
   }
 }
+
+output "gateway_id" {
+  value = aws_apigatewayv2_api.api.id
+}
+
+output "gateway_stage_id" {
+  value = aws_apigatewayv2_stage.api.id
+}
