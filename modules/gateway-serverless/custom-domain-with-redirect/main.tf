@@ -120,7 +120,7 @@ resource "aws_route53_record" "api-ipv4" {
 
   name    = each.key
   type    = "A"
-  zone_id = data.aws_route53_zone.api.zone_id
+  zone_id = data.aws_route53_zone.zone.zone_id
 
   alias {
     name                   = aws_cloudfront_distribution.distribution.domain_name
@@ -135,7 +135,7 @@ resource "aws_route53_record" "api-ipv6" {
 
   name    = each.key
   type    = "AAAA"
-  zone_id = data.aws_route53_zone.api.zone_id
+  zone_id = data.aws_route53_zone.zone.zone_id
 
   alias {
     name                   = aws_cloudfront_distribution.distribution.domain_name
