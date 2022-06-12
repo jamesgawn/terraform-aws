@@ -68,7 +68,7 @@ resource "aws_route53_record" "cert_validation" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = var.domains[index(var.domains.*.domain, dvo.domain_name)].zone
+  zone_id         = var.domains[index(var.domains.*.domain, dvo.resource_record_name)].zone
 }
 
 resource "aws_acm_certificate_validation" "cert" {
