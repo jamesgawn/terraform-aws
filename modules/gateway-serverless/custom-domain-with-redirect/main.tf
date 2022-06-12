@@ -129,7 +129,7 @@ resource "aws_route53_record" "api-ipv4" {
   allow_overwrite = true
 }
 
-resource "aws_route53_record" "api-ipv4" {
+resource "aws_route53_record" "api-ipv6" {
   for_each = toset(var.domains)
 
   name    = each.key
