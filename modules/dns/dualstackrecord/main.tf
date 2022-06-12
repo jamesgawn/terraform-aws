@@ -21,6 +21,8 @@ resource "aws_route53_record" "a" {
   ttl     = "300"
 
   records = var.a-records
+
+  allow_overwrite = true
 }
 
 resource "aws_route53_record" "aaaa" {
@@ -30,6 +32,8 @@ resource "aws_route53_record" "aaaa" {
   ttl     = "300"
 
   records = var.aaaa-records
+
+  allow_overwrite = true
 }
 
 output "name" {

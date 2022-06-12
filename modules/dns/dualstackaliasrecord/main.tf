@@ -24,6 +24,8 @@ resource "aws_route53_record" "a" {
     name = var.alias-target
     zone_id = var.alias-hosted-zone-id
   }
+
+  allow_overwrite = true
 }
 
 resource "aws_route53_record" "aaaa" {
@@ -36,6 +38,8 @@ resource "aws_route53_record" "aaaa" {
     name = var.alias-target
     zone_id = var.alias-hosted-zone-id
   }
+
+  allow_overwrite = true
 }
 
 output "name" {
