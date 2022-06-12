@@ -18,11 +18,6 @@ variable "gateway_stage_id" {
   description = "The ID for the gateway stage to attach to"
 }
 
-data "aws_acm_certificate" "api_cert" {
-  domain   = var.cert_domain
-  statuses = ["ISSUED"]
-}
-
 resource "aws_apigatewayv2_domain_name" "api" {
   domain_name = var.domain
 
@@ -33,7 +28,7 @@ resource "aws_apigatewayv2_domain_name" "api" {
   }
 }
 
-resource "aws_apigatewayv2_api_mapping" "example" {
+resource "aws_apigatewayv2_api_mapping" "api" {
   api_id      = var.gateway_id
   domain_name = aws_apigatewayv2_domain_name.api.id
   stage       = var.gateway_stage_id
@@ -65,7 +60,7 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
-resource "aws_route53_record" "cert-validation" {
+resource "aws_route53_record" "cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -84,5 +79,5 @@ resource "aws_route53_record" "cert-validation" {
 
 resource "aws_acm_certificate_validation" "cert" {
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.example : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
