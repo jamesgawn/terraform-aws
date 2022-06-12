@@ -24,7 +24,7 @@ resource "aws_lambda_permission" "function" {
   action        = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${data.aws_apigatewayv2_api.gateway.execution_arn}/*/*/*"
+  source_arn    = "${data.aws_apigatewayv2_api.gateway.execution_arn}/*/*"
 }
 
 resource "aws_apigatewayv2_integration" "integration" {
