@@ -8,6 +8,11 @@ variable "domain" {
   description = "The domain you wish to attach to the gateway. e.g. api.gawn.uk"
 }
 
+variable "zone" {
+  type = string
+  description = "The name of the zone which contains the domain"
+}
+
 variable "gateway_id" {
   type = string
   description = "The ID for the gateway to attach to"
