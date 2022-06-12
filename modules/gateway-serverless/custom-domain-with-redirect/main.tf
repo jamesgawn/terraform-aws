@@ -90,6 +90,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     custom_origin_config {
       origin_protocol_policy = "https-only"
       origin_ssl_protocols = ["TLSv1.2"]
+      https_port = 443
     }
   }
 
