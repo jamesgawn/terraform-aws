@@ -44,7 +44,7 @@ data "aws_route53_zone" "api" {
   private_zone = false
 }
 
-resource "aws_route53_record" "api" {
+resource "aws_route53_record" "api-ipv4" {
   name    = aws_apigatewayv2_domain_name.api.domain_name
   type    = "A"
   zone_id = data.aws_route53_zone.api.zone_id
@@ -57,7 +57,7 @@ resource "aws_route53_record" "api" {
   allow_overwrite = true
 }
 
-resource "aws_route53_record" "api" {
+resource "aws_route53_record" "api-ipv6" {
   name    = aws_apigatewayv2_domain_name.api.domain_name
   type    = "AAAA"
   zone_id = data.aws_route53_zone.api.zone_id
