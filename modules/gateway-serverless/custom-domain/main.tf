@@ -8,12 +8,12 @@ variable "domain" {
   description = "The domain you wish to attach to the gateway. e.g. api.gawn.uk"
 }
 
-variable "gateway-id" {
+variable "gateway_id" {
   type = string
   description = "The ID for the gateway to attach to"
 }
 
-variable "gateway-stage-id" {
+variable "gateway_stage_id" {
   type = string
   description = "The ID for the gateway stage to attach to"
 }
@@ -34,9 +34,9 @@ resource "aws_apigatewayv2_domain_name" "api" {
 }
 
 resource "aws_apigatewayv2_api_mapping" "example" {
-  api_id      = var.gateway-id
+  api_id      = var.gateway_id
   domain_name = aws_apigatewayv2_domain_name.api.id
-  stage       = var.gateway-stage-id
+  stage       = var.gateway_stage_id
 }
 
 data "aws_route53_zone" "api" {
