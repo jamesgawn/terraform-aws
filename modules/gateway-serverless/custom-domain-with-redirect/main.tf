@@ -69,6 +69,7 @@ resource "aws_acm_certificate_validation" "cert" {
 
 resource "aws_cloudfront_distribution" "distribution" {
   origin {
+    origin_id = "gateway"
     domain_name = data.aws_apigatewayv2_api.gateway.api_endpoint
   }
 
