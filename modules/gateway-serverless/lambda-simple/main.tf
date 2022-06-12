@@ -74,10 +74,6 @@ resource "aws_iam_role_policy_attachment" "lambda_execution_basis_role_attachmen
   role = aws_iam_role.lambda_execution_role.name
 }
 
-data "aws_sns_topic" "notification_alerts" {
-  name = var.notification_sns_queue_name
-}
-
 output "lambda_execution_role_name" {
   value = aws_iam_role.lambda_execution_role.name
 }
