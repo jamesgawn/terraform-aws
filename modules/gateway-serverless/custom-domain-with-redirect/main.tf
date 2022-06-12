@@ -143,7 +143,7 @@ resource "aws_cloudfront_distribution" "distribution" {
 
 resource "aws_route53_record" "api-ipv4" {
   provider = aws.default
-  for_each = var.domains
+  for_each = toset(var.domains)
 
   name    = each.value.domain
   type    = "A"
