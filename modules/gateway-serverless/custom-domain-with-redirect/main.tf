@@ -85,7 +85,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   provider = aws.default
   origin {
     origin_id = "gateway"
-    domain_name = substr(data.aws_apigatewayv2_api.gateway.api_endpoint, 9)
+    domain_name = substr(data.aws_apigatewayv2_api.gateway.api_endpoint, 9, 1000)
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
