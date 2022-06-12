@@ -49,7 +49,7 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash = data.archive_file.lambda_code.output_sha
   memory_size = var.memory_size
   timeout = var.timeout
-  environment = {
+  environment {
     variables = var.environment
   }
 
