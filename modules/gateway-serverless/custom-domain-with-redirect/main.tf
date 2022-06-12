@@ -159,7 +159,12 @@ resource "aws_route53_record" "api-ipv4" {
 
 resource "aws_route53_record" "api-ipv6" {
   provider = aws.default
-  for_each = var.domains
+  for_each = {
+    for domain in var.domains : domain.domain => {
+      domain = domain.domain
+      zone_id = domain.zone_id
+    } 
+  }
 
   name    = each.value.domain
   type    = "AAAA"
