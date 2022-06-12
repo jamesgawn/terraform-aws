@@ -1,3 +1,10 @@
+aws = {
+  source = "hashicorp/aws"
+  configuration_aliases = [
+  aws.us-east-1,
+  ]
+}
+
 variable "zone" {
   type = string
   description = "The name of the zone which contains the domain"
@@ -30,10 +37,6 @@ data "aws_apigatewayv2_api" "gateway" {
 /*
  * Certificate Generation
  */
-provider "aws" {
-  alias = "us-east-1"
-}
-
 resource "aws_acm_certificate" "cert" {
   provider = aws.us-east-1
   domain_name       = var.domains[0]
