@@ -18,6 +18,11 @@ variable "gateway_stage_id" {
   description = "The ID for the gateway stage to attach to"
 }
 
+data "aws_route53_zone" "zone" {
+  name         = var.zone
+  private_zone = false
+}
+
 resource "aws_apigatewayv2_domain_name" "api" {
   domain_name = var.domain
 
@@ -74,7 +79,7 @@ resource "aws_route53_record" "cert_validation" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = aws_route53_zone.cert.zone_id
+  zone_id         = data.aws_route53_zone.zone.zone_id
 }
 
 resource "aws_acm_certificate_validation" "cert" {
