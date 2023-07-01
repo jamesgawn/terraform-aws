@@ -43,20 +43,6 @@ data aws_instance "ana" {
   instance_id = "i-0dfc4294ee146be56"
 }
 
-// The DNS confguration for globally managed domain names
-module "dns" {
-  source = "./dns"
-}
-
-// Domain names
-data "aws_route53_zone" "gawn_uk" {
-  name         = "gawn.uk."
-}
-
-data "aws_route53_zone" "gawn_co_uk" {
-  name         = "gawn.co.uk."
-}
-
 // The generic SNS queue used for alarms
 data "aws_sns_topic" "alarm_sns" {
   name = "EmergencyNotificationList"
