@@ -61,37 +61,3 @@ data "aws_route53_zone" "gawn_co_uk" {
 data "aws_sns_topic" "alarm_sns" {
   name = "EmergencyNotificationList"
 }
-
-// files.gawn.uk
-module "files_gawn_uk" {
-  source = "./modules/cloudfront-distribution-via-s3"
-
-  site-name = "website-gawn-subdomain-files"
-  cert-domain = "gawn.uk"
-  site-domains = ["files.gawn.uk", "files.gawn.co.uk"]
-  root = "index.html"
-  s3_force_destroy = false
-
-  providers = {
-    aws = aws
-    aws.us-east-1 = aws.us-east-1
-  }
-}
-
-module "gawn_uk" {
-  source = "./modules/dns/dualstackaliasrecord"
-
-  zone_id = data.aws_route53_zone.gawn_uk.zone_id
-  name = "files.${data.aws_route53_zone.gawn_uk.name}"
-  alias-target = module.files_gawn_uk.domain_name
-  alias-hosted-zone-id = module.files_gawn_uk.hosted_zone_id
-}
-
-module "gawn_co_uk" {
-  source = "./modules/dns/dualstackaliasrecord"
-
-  zone_id = data.aws_route53_zone.gawn_co_uk.zone_id
-  name = "files.${data.aws_route53_zone.gawn_co_uk.name}"
-  alias-target = module.files_gawn_uk.domain_name
-  alias-hosted-zone-id = module.files_gawn_uk.hosted_zone_id
-}
